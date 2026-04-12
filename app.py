@@ -6,10 +6,10 @@ import numpy as np
 from datetime import datetime, timedelta
 
 # 1. Page Configuration
-st.set_page_config(page_title="BIST 30 Disposition Analyzer", layout="wide")
+st.set_page_config(page_title="OMERDEMIRCAN BIST 30 Disposition Analyzer", layout="wide")
 
 st.title("Behavioral Finance: Disposition Effect Analyzer")
-st.markdown("This tool uses real BIST 30 data to simulate the **Disposition Effect** based on your research paper parameters.")
+st.markdown("This tool uses real BIST 30 data to simulate the **Disposition Effect** based on my Disposition effect research paper parameters.")
 
 # 2. BIST 30 Selection
 bist_tickers = {
