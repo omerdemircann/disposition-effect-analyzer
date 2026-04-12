@@ -35,18 +35,23 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.subheader(f"{selected_name} ({ticker}) Price Chart")
+    
+    o = data['Open'].squeeze()
+    h = data['High'].squeeze()
+    l = data['Low'].squeeze()
+    c = data['Close'].squeeze()
+    
     fig = go.Figure(data=[go.Candlestick(x=data.index,
-                open=data['Open'], high=data['High'],
-                low=data['Low'], close=data['Close'])])
+                open=o, high=h, low=l, close=c)])
     fig.update_layout(xaxis_rangeslider_visible=False, template="plotly_white")
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
     st.subheader("Behavioral Diagnosis")
     
-    # Extracting exact float values to prevent formatting errors
-    last_price = float(data['Close'].iloc[-1].iloc[0] if isinstance(data['Close'], pd.DataFrame) else data['Close'].iloc[-1])
-    first_price = float(data['Close'].iloc[0].iloc[0] if isinstance(data['Close'], pd.DataFrame) else data['Close'].iloc[0])
+    # Extracting exact float values
+    last_price = float(c.iloc[-1])
+    first_price = float(c.iloc[0])
     
     change_pct = ((last_price - first_price) / first_price) * 100
     
