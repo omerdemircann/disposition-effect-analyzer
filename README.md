@@ -1,8 +1,7 @@
 
 # 📈 BIST 30 Behavioral Finance: Disposition Effect Analyzer
 
-**Live Interactive Dashboard:** https://disposition-effect-analyzer-myajhabmgfhych9zhkhnfj.streamlit.app
-
+**Live Interactive Dashboard:** https://omerdemircan-behavioral-finance.streamlit.app
 ## 📌 About the Project
 This interactive web application was developed to simulate and analyze the **Disposition Effect** within the Borsa Istanbul (BIST 30) index. The Disposition Effect is a well-documented behavioral bias where investors tend to sell assets that have increased in value (winners) too early, while holding onto depreciating assets (losers) for too long.
 
