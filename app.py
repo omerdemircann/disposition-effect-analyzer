@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 st.set_page_config(page_title="OMERDEMIRCAN BIST 30 Disposition Analyzer", layout="wide")
 
 st.title("Behavioral Finance: Disposition Effect Analyzer")
-st.markdown("This tool uses real BIST 30 data to simulate the **Disposition Effect** based on my Disposition effect research paper parameters.")
+st.markdown("This tool uses real BIST 30 data to simulate the **Disposition Effect** based on my Why Investors Sell Winners and Hold Losers research paper parameters.")
 
 # 2. BIST 30 Selection
 bist_tickers = {
