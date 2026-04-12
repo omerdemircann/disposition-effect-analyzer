@@ -26,40 +26,35 @@ with st.sidebar:
     ticker = bist_tickers[selected_name]
     
     st.header("2. Investment Scenario")
-    # Kullanıcının alım yaptığı hayali tarih
     buy_date = st.date_input("Investment Start Date:", datetime.now() - timedelta(days=365))
-    # Disposition bias katsayısı (Yüksekse kazananı daha hızlı satar)
     bias = st.slider("Disposition Bias Intensity:", 1.0, 5.0, 2.0)
 
 # 3. Fetch Data
 with st.spinner("Fetching data..."):
     data = yf.download(ticker, start=buy_date)
-    # Data cleaning for chart
     c = data['Close'].squeeze()
     o = data['Open'].squeeze()
     h = data['High'].squeeze()
     l = data['Low'].squeeze()
 
 # 4. Disposition Logic (PGR & PLR Calculation)
-ref_price = float(c.iloc[0]) # Alım tarihindeki fiyat
+ref_price = float(c.iloc[0])
 
 gains_opp = 0
 losses_opp = 0
 realized_gains = 0
 realized_losses = 0
 
-# Simülasyon döngüsü (Makalendeki PGR/PLR mantığı)
 for price in c.values:
     if price > ref_price:
         gains_opp += 1
-        if np.random.rand() < (0.1 * bias): # Kârda satış ihtimali yüksek
+        if np.random.rand() < (0.1 * bias):
             realized_gains += 1
     elif price < ref_price:
         losses_opp += 1
-        if np.random.rand() < (0.1 / bias): # Zararda satış ihtimali düşük
+        if np.random.rand() < (0.1 / bias):
             realized_losses += 1
 
-# PGR and PLR Formulas
 pgr = realized_gains / gains_opp if gains_opp > 0 else 0
 plr = realized_losses / losses_opp if losses_opp > 0 else 0
 
@@ -69,9 +64,7 @@ col1, col2 = st.columns([2, 1])
 with col1:
     st.subheader("Price Chart & Reference Level")
     fig = go.Figure()
-    # Candlestick chart
     fig.add_trace(go.Candlestick(x=data.index, open=o, high=h, low=l, close=c, name="Price"))
-    # Reference Line (Alım Fiyatı)
     fig.add_hline(y=ref_price, line_dash="dash", line_color="blue", annotation_text="Buy Price")
     
     fig.update_layout(xaxis_rangeslider_visible=False, template="plotly_white", height=500)
@@ -86,8 +79,12 @@ with col2:
     m_col2.metric("PLR", f"{plr:.2%}")
     
     st.markdown("---")
+    # SIFIRA BÖLME HATASINI ÇÖZEN KISIM
     if pgr > plr:
-        st.error(f"**Disposition Effect Detected!**\n\nThe investor is {pgr/plr:.1f}x more likely to realize gains than losses. This confirms the 'Sell Winners, Hold Losers' bias.")
+        if plr == 0:
+            st.error("**Extreme Disposition Effect Detected!**\n\nThe investor realized gains, but held onto ALL losses (PLR is 0%). This is a severe case of 'Sell Winners, Hold Losers'.")
+        else:
+            st.error(f"**Disposition Effect Detected!**\n\nThe investor is {pgr/plr:.1f}x more likely to realize gains than losses. This confirms the 'Sell Winners, Hold Losers' bias.")
     else:
         st.success("No significant Disposition Effect detected in this simulation.")
     
