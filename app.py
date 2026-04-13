@@ -29,6 +29,11 @@ with st.sidebar:
     buy_date = st.date_input("Investment Start Date:", datetime.now() - timedelta(days=365))
     bias = st.slider("Disposition Bias Intensity:", 1.0, 5.0, 2.0)
 
+# CACHE:To keep datas in longer time period
+@st.cache_data(ttl=86400) # Keeps data in the memory for 24 hours,dont need to reinstall.
+def fetch_stock_data(ticker_symbol, start_date):
+    return yf.download(ticker_symbol, start=start_date)
+
 # 3. Fetch Data
 with st.spinner("Fetching data..."):
     data = yf.download(ticker, start=buy_date)
