@@ -84,7 +84,6 @@ with col2:
     m_col2.metric("PLR", f"{plr:.2%}")
     
     st.markdown("---")
-    # SIFIRA BÖLME HATASINI ÇÖZEN KISIM
     if pgr > plr:
         if plr == 0:
             st.error("**Extreme Disposition Effect Detected!**\n\nThe investor realized gains, but held onto ALL losses (PLR is 0%). This is a severe case of 'Sell Winners, Hold Losers'.")
