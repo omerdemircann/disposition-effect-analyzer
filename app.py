@@ -16,7 +16,8 @@ bist_tickers = {
     "Turkish Airlines": "THYAO.IS",
     "Erdemir": "EREGL.IS",
     "Tupras": "TUPRS.IS",
-    "Aselsan": "ASELS.IS",
+    "Aselsan": "ASELS.IS"
+    "Isbank": "ISCTR.IS",
 }
 
 with st.sidebar:
