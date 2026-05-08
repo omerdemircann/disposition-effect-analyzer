@@ -17,7 +17,7 @@ bist_tickers = {
     "Erdemir": "EREGL.IS",
     "Tupras": "TUPRS.IS",
     "Aselsan": "ASELS.IS"
-    "Isbank": "ISCTR.IS",
+    "Isbank": "ISCTR.IS"
 }
 
 with st.sidebar:
