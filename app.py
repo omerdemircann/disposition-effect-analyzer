@@ -158,15 +158,17 @@ with tab3:
         st.divider()
         st.subheader("6 Months Later...")
         
+        # Display the situation and let the user make a choice
         if sim['return'] < 0:
             st.error(f"Oh no! The stock dropped by **{abs(sim['return']):.2f}%**.")
             st.write(f"You bought at {sim['buy']:.2f} TL, and it is now at {sim['mid']:.2f} TL.")
-            st.write("**Do you sell to cut your losses, or hold hoping it goes back up?**")
+            decision = st.radio("What is your decision?", ("Sell to cut losses", "Hold and wait for a recovery"), key="decision_loss")
         else:
             st.success(f"Great! The stock is up by **{sim['return']:.2f}%**.")
             st.write(f"You bought at {sim['buy']:.2f} TL, and it is now at {sim['mid']:.2f} TL.")
-            st.write("**Do you sell now to lock in profits, or hold for more gains?**")
+            decision = st.radio("What is your decision?", ("Sell to lock in profits", "Hold for more gains"), key="decision_gain")
             
+        # Button to reveal results
         if st.button("Reveal Today's Price"):
             st.divider()
             st.subheader("Fast Forward to Today")
@@ -175,9 +177,18 @@ with tab3:
             final_return = ((sim['current'] - sim['buy']) / sim['buy']) * 100
             st.write(f"Today's price is **{sim['current']:.2f} TL**.")
             
-            if final_return > sim['return']:
-                st.success("Holding was mathematically the better choice! The price improved compared to the 6-month mark.")
-            else:
-                st.error("Selling at the 6-month mark would have been better! The price deteriorated further.")
+            better_to_hold = final_return > sim['return']
+            
+            # Dynamic feedback based on the user's decision
+            if decision.startswith("Sell"):
+                if better_to_hold:
+                    st.warning("📉 You chose to **SELL**! But holding would have been mathematically better. The price improved after the 6-month mark.")
+                else:
+                    st.success("✅ Good choice to **SELL**! The price deteriorated further after the 6-month mark. You successfully avoided more losses (or protected your peak profits).")
+            else: # If they chose Hold
+                if better_to_hold:
+                    st.success("✅ Good choice to **HOLD**! The price improved compared to the 6-month mark. Patience paid off.")
+                else:
+                    st.warning("📉 You chose to **HOLD**! But selling at the 6-month mark would have been better. The price deteriorated further.")
                 
-            st.info("Did you feel the urge to hold a losing stock, or sell a winning one quickly? If so, you experienced the Disposition Effect firsthand.")
+            st.info("Did your choice align with the Disposition Effect? Experimental Economics suggests investors typically rush to sell in profit scenarios (to feel successful), but refuse to sell in loss scenarios (to avoid admitting failure).")
