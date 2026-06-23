@@ -125,20 +125,30 @@ with tab3:
         with st.spinner("Generating scenario..."):
             end_date = datetime.date.today()
             start_date = end_date - relativedelta(years=1)
-            mid_date = start_date + relativedelta(months=6)
             
+            # Download the data
             data = yf.download(sim_ticker, start=start_date, end=end_date, progress=False)
             
             if not data.empty and len(data) > 100:
-                buy_price = float(data.loc[:str(start_date + relativedelta(days=10))]['Close'].iloc[0])
-                mid_price = float(data.loc[:str(mid_date)]['Close'].iloc[-1])
-                current_price = float(data['Close'].iloc[-1])
+                # Safe column selection for recent yfinance updates
+                close_prices = data['Close']
+                if isinstance(close_prices, pd.DataFrame):
+                    close_prices = close_prices.squeeze()
                 
+                # Instead of searching for dates, we grab the first, middle, and last available prices
+                buy_price = float(close_prices.iloc[0])
+                
+                mid_index = len(close_prices) // 2
+                mid_price = float(close_prices.iloc[mid_index])
+                
+                current_price = float(close_prices.iloc[-1])
+                
+                # Calculate the 6-month return
                 mid_return = ((mid_price - buy_price) / buy_price) * 100
                 
                 st.session_state['sim_data'] = {
                     'buy': buy_price, 'mid': mid_price, 'current': current_price,
-                    'return': mid_return, 'full_data': data['Close']
+                    'return': mid_return, 'full_data': close_prices
                 }
             else:
                 st.error("Not enough historical data to run the simulation for this stock.")
