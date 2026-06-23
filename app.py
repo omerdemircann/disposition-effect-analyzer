@@ -14,10 +14,25 @@ st.markdown("This tool uses real BIST 30 data to simulate the **Disposition Effe
 # 2. BIST 30 Selection
 bist_tickers = {
     "Turkish Airlines": "THYAO.IS",
-    "Erdemir": "EREGL.IS",
-    "Tupras": "TUPRS.IS",
+    "Garanti BBVA": "GARAN.IS",
     "Aselsan": "ASELS.IS",
-    "Isbank": "ISCTR.IS"
+    "Koc Holding": "KCHOL.IS",
+    "Akbank": "AKBNK.IS",
+    "Isbank": "ISCTR.IS",
+    "Tupras": "TUPRS.IS",
+    "Sisecam": "SISE.IS",
+    "BIM": "BIMAS.IS",
+    "Erdemir": "EREGL.IS",
+    "Sabanci Holding": "SAHOL.IS",
+    "Yapi Kredi": "YKBNK.IS",
+    "Enka Insaat": "ENKAI.IS",
+    "Ford Otosan": "FROTO.IS",
+    "Turkcell": "TCELL.IS",
+    "Tofas": "TOASO.IS",
+    "Pegasus Airlines": "PGSUS.IS",
+    "Arcelik": "ARCLK.IS",
+    "Turk Telekom": "TTKOM.IS",
+    "Petkim": "PETKM.IS"
 }
 
 with st.sidebar:
